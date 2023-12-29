@@ -1,0 +1,82 @@
+@font-face {
+    font-family: "VCR";
+    src: url('./VCR_OSD_MONO_1.001.ttf');
+}
+
+
+body {
+    background: rgb(0, 89, 168);
+    background: radial-gradient(circle, rgba(0, 89, 168, 1) 0%, rgba(0, 55, 168, 1) 100%);
+    color: white;
+    font-family: VCR, sans-serif;
+}
+
+.hide {
+    display: none;
+}
+
+
+#headR {
+    background-color: black;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 1%;
+    font-weight: 600;
+    font-size: large;
+}
+
+#headR a {
+    color: white;
+    text-decoration: none;
+}
+
+#headR a:visited {
+    color: white;
+    text-decoration: none;
+}
+
+
+#timer {
+    color: white;
+}
+
+#quiz {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 8% 15%;
+}
+
+#quiz h1 {
+    font-size: xx-large;
+}
+
+.title {
+    text-decoration: underline;
+    margin-bottom: 2%;
+}
+
+@keyframes pulse {
+    0% {font-size: x-large;}
+    50% {font-size: xx-large;}
+    100% {font-size: x-large;}
+}
+
+#B {
+    color: rgb(0, 89, 168);
+    background-color: white;
+    padding: 0%;
+    border-radius: 0%;
+    border: none;
+    margin-top: 3%;
+    font-size: x-large;
+    
+
+}
+
+#B:hover {
+    animation-name: pulse;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+}
