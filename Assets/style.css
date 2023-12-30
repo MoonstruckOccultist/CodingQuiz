@@ -3,7 +3,6 @@
     src: url('./VCR_OSD_MONO_1.001.ttf');
 }
 
-
 body {
     background: rgb(0, 89, 168);
     background: radial-gradient(circle, rgba(0, 89, 168, 1) 0%, rgba(0, 55, 168, 1) 100%);
@@ -45,7 +44,8 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 8% 15%;
+    margin: 8% 5%;
+    margin-bottom: 3%;
 }
 
 #quiz h1 {
@@ -54,13 +54,24 @@ body {
 
 .title {
     text-decoration: underline;
+}
+
+#head1 {
     margin-bottom: 2%;
 }
 
 @keyframes pulse {
-    0% {font-size: x-large;}
-    50% {font-size: xx-large;}
-    100% {font-size: x-large;}
+    0% {
+        font-size: x-large;
+    }
+
+    50% {
+        font-size: xx-large;
+    }
+
+    100% {
+        font-size: x-large;
+    }
 }
 
 #B {
@@ -71,12 +82,74 @@ body {
     border: none;
     margin-top: 3%;
     font-size: x-large;
-    
-
 }
 
 #B:hover {
     animation-name: pulse;
     animation-duration: 2s;
     animation-iteration-count: infinite;
+}
+
+#answers {
+    margin-top: 3%;
+    display: flex;
+    flex-direction: column;
+    max-width: 90%;
+}
+
+.aButton {
+    color: white;
+    background-color: rgba(255, 255, 255, 0);
+    padding: 0%;
+    border-radius: 0%;
+    border: none;
+    margin-top: 0%;
+    font-size: x-large;
+    white-space: normal;
+    text-align: left;
+    margin-bottom: 2%;
+}
+
+.aButton:hover {
+    color: rgb(0, 89, 168);
+    background-color: white;
+}
+
+.correct {
+    color: greenyellow;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.incorrect {
+    color: rgb(63, 0, 0);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#msg {
+    font-size: large;
+}
+
+#iInput {
+    border: none;
+    background-color: white;
+    border-radius: 0%;
+    color: rgb(0, 89, 168);
+    padding: 0% 0.5%;
+    text-transform: uppercase;
+    font-size: xx-large;
+}
+
+#iInput:focus-visible {
+    outline: none;
+}
+
+
+@media screen and (max-width: 768px) {
+    .aButton {
+        margin-bottom: 3%;
+    }
 }
