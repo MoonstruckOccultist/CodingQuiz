@@ -164,4 +164,13 @@ body {
     .aButton {
         margin-bottom: 3%;
     }
+    #quiz h1 {
+        font-size: medium;
+    }
+    #scoreList {
+        font-size: small;
+    }
+    #B {
+        font-size: medium;
+    }
 }
