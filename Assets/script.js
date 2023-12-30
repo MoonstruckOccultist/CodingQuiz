@@ -1,16 +1,19 @@
 var qBody = document.getElementById('quiz');
 var button = document.getElementById('B');
 var timer = document.getElementById('timeLeft');
+var timerID = document.getElementById('timer')
 var h1 = qBody.querySelector('h1');
 var p = qBody.querySelector("p");
 var score = 0;
 var qAnswered = 0;
+var nav = document.getElementById('headR');
 var sBoard = document.getElementById('sBoard');
+var delAns = document.getElementById(`answers`);
 
 
 var highScores = [];
 
-var sLeft = 100;
+var sLeft = 60;
 
 var guessS = 1;
 
@@ -31,7 +34,7 @@ let QsAndAs = [
             1: "Waits until previous function has finished to execute next function",
             2: "Takes the returned results in the previous function and uses that data in the next function",
             3: "Waits until previous function has returned results uses that returned data in the next function",
-            4: "I have no #$!@#&% clue"
+            4: "I have no clue"
         },
         A: 3,
     },
@@ -125,10 +128,15 @@ function startQuiz() {
     h1.classList.remove("title");
     button.setAttribute('class', 'hide');
     p.setAttribute('class', 'hide');
+    timerID.setAttribute('class', '');
+
 
     if (document.querySelector('.Highscores')) {
         var delScor = document.querySelector(`.Highscores`);
         delScor.remove();
+    }
+    if (sBoard) {
+        sBoard.remove();
     }
 
     i = 0;
@@ -151,13 +159,13 @@ function startQuiz() {
         var choice = event.target;
         choice = event.target;
         if (choice.matches("input")) {
-            // console.log("choice: " + choice.id);
             checkAnNext(choice.id);
         }
     });
     timer.textContent = sLeft
 
     showQ();
+    startClock();
 };
 
 
@@ -171,54 +179,68 @@ function showQ() {
 
 function checkAnNext(ch) {
     guessS = 1;
-    // console.log("Answer: " +QsAndAs[i].A);
     if (ch == QsAndAs[i].A) {
         msg.setAttribute('class', 'correct');
         msg.textContent = "CORRECT";
-        gTimer;
+        resultClock();
         score++;
     } else {
         msg.setAttribute('class', 'incorrect');
         msg.textContent = "INCORRECT";
         sLeft = sLeft - 10;
         timer.textContent = sLeft
-        gTimer;
+        resultClock();
     }
     i++;
     qAnswered++;
-    // console.log("score: " + score)
     if (qAnswered == QsAndAs.length) {
-        enterHS();
+        sLeft = 0;
     } else {
-        // console.log(qAnswered)
         showQ();
     }
 
 }
 
-var gTimer = setInterval(function () {
-    if (guessS > 0) {
-        guessS--;
-    } else {
-        msg.setAttribute('class', 'hide');
-    }
+function startClock() {
+    sLeft = 60
+    var gameClock = setInterval(function () {
+        if (sLeft > 0) {
+            timer.textContent = `${sLeft}`;
+            sLeft--;
+        } else {
+            clearInterval(gameClock);
+            timerID.setAttribute('class', 'hide')
+            enterHS();
+        }
 
-}, 1000);
+    }, 1000);
+}
+
+
+function resultClock() {
+    guessS = 1;
+    var gTimer = setInterval(function () {
+        if (guessS > 0) {
+            guessS--;
+        } else {
+            msg.setAttribute('class', 'hide');
+            clearInterval(gTimer);
+        }
+
+    }, 1000);
+}
 
 function enterHS() {
     var delAns = document.getElementById(`answers`);
-    delAns.remove();
+    if (delAns) {
+        delAns.remove();
+    }
 
     h1.textContent = `YOU SCORED: ${score}/${QsAndAs.length}`;
 
     var form = document.createElement('form');
     form.setAttribute('id', 'Iform')
     qBody.appendChild(form);
-
-    // var lab = document.createElement('label');
-    // lab.setAttribute('for', 'iInput');
-    // form.appendChild(lab);
-    // lab.textContent = ""
 
     var initials = document.createElement('input');
     initials.setAttribute('type', 'text');
@@ -238,9 +260,8 @@ function enterHS() {
         const fScore = `${initials.value} ${score}`;
         highScores.push(fScore);
         localStorage.setItem("highScores", JSON.stringify(highScores));
-        // var test = JSON.parse(localStorage.getItem("highScores"));
-        // console.log(test);
 
+        sortScores();
         viewHS();
     });
 }
@@ -248,10 +269,22 @@ function enterHS() {
 function viewHS() {
     p.setAttribute('class', 'hide');
     button.setAttribute('class', '')
+    h1.classList.remove("title");
+
+    console.log(highScores);
+
+    if (highScores.length > 0) {
+        h1.textContent = `TOP SCORER: ${highScores[0]}`
+    } else {
+        h1.textContent = `Why are you here? you havent even played yet. why did you check the highscores? you think i can store stuff on a network? ha! i wish.`
+    }
     
+
     var delF = document.getElementById('Iform');
 
-    qBody.removeChild(delF);
+    if (delF) {
+        qBody.removeChild(delF);
+    }
     qBody.removeChild(button);
 
     var HSs = document.createElement('ul');
@@ -261,11 +294,16 @@ function viewHS() {
 
     console.log(highScores);
 
-    for (var x = 0; highScores.length > x && x < 9; x++) {
-        var listedScore = document.createElement('li');
-        listedScore.setAttribute('id', 'scoreList');
-        HSs.appendChild(listedScore)
-        listedScore.textContent = highScores[x]
+
+    if (highScores.length > 0) {
+        for (var x = 0; highScores.length > x && x < 9; x++) {
+            var listedScore = document.createElement('li');
+            listedScore.setAttribute('id', 'scoreList');
+            HSs.appendChild(listedScore)
+            listedScore.textContent = highScores[x]
+        }
+    } else {
+
     }
 
     qBody.appendChild(button)
@@ -273,19 +311,42 @@ function viewHS() {
 
 }
 
-
-
-// console.log(QsAndAs.length);
+function sortScores() {
+    var temp = [];
+    var sortedScores = [];
+    if (highScores.length > 0) {
+        for (var s = 0; highScores.length > s; s++) {
+            var getScore = highScores[s].split(' ')[1];
+        
+            temp.push(getScore)
+        }
+        for (var max = 10; max > -1; max--) {
+            for (var f = 0; highScores.length > f; f++) {
+                
+                if (temp[f] == max) {
+                    sortedScores.push(highScores[f]);
+                    
+                }
+            }
+        }
+        highScores = sortedScores;
+    }
+}
 
 var storedScores = JSON.parse(localStorage.getItem("highScores"))
 if (storedScores !== null) {
     console.log(storedScores);
     highScores = storedScores;
     console.log(highScores);
+    sortScores()
 }
+
+
+
 
 // split the scores array between names and scores and then order them by highest score
 
 
 button.addEventListener("click", startQuiz);
+sBoard.addEventListener("click", viewHS)
 

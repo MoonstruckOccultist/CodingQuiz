@@ -19,7 +19,7 @@ body {
     background-color: black;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: center;
     padding: 1%;
     font-weight: 600;
     font-size: large;
@@ -33,6 +33,12 @@ body {
 #headR a:visited {
     color: white;
     text-decoration: none;
+}
+
+#sBoard {
+    color: white;
+    background-color: black;
+    border: none;
 }
 
 
@@ -58,6 +64,7 @@ body {
 
 #head1 {
     margin-bottom: 2%;
+    text-transform: uppercase;
 }
 
 @keyframes pulse {
@@ -145,6 +152,11 @@ body {
 
 #iInput:focus-visible {
     outline: none;
+}
+
+#scoreList {
+    text-transform: uppercase;
+    font-size: x-large;
 }
 
 
