@@ -256,7 +256,6 @@ function enterHS() {
             return;
         }
         console.log(`${initials.value} ${score}`)
-        // make the array have both name and score attached in each item, and then sort by highest number all that other shit and display top 10
         const fScore = `${initials.value} ${score}`;
         highScores.push(fScore);
         localStorage.setItem("highScores", JSON.stringify(highScores));
@@ -340,11 +339,6 @@ if (storedScores !== null) {
     console.log(highScores);
     sortScores()
 }
-
-
-
-
-// split the scores array between names and scores and then order them by highest score
 
 
 button.addEventListener("click", startQuiz);
